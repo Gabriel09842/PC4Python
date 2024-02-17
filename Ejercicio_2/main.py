@@ -2,7 +2,6 @@ import random
 from pyfiglet import Figlet
 
 def main():
-  """Solicita al usuario la información y muestra el texto con FIGlet."""
   figlet = Figlet()
   fuente_aleatoria = random.choice(figlet.getFonts())
   fuente = input("Ingrese el nombre de la fuente (o presione Enter para aleatoria): ") or fuente_aleatoria
