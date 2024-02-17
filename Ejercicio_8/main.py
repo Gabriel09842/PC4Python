@@ -2,7 +2,6 @@ import requests
 import sqlite3
 from datetime import datetime
 
-# Función para obtener el precio de Bitcoin
 def obtener_precio_bitcoin():
   url = "https://api.coindesk.com/v1/bpi/currentprice/USD.json"
   respuesta = requests.get(url)
@@ -14,7 +13,6 @@ def obtener_precio_bitcoin():
     print(f"Error al obtener el precio de Bitcoin: {respuesta.status_code}")
     return None
 
-# Función para obtener el tipo de cambio
 def obtener_tipo_cambio(fecha):
   url = f"https://api.apis.net.pe/v1/tipo-cambio-sunat?month={fecha.month}&year={fecha.year}"
   respuesta = requests.get(url)
@@ -27,7 +25,6 @@ def obtener_tipo_cambio(fecha):
     print(f"Error al obtener el tipo de cambio: {respuesta.status_code}")
     return None
 
-# Función para agregar un registro a la tabla 'bitcoin'
 def agregar_registro_bitcoin(fecha, precio_usd):
   conexion = sqlite3.connect("base.db")
   cursor = conexion.cursor()
@@ -49,16 +46,13 @@ def agregar_registro_bitcoin(fecha, precio_usd):
   cursor.close()
   conexion.close()
 
-# Obtención del precio actual de Bitcoin y el tipo de cambio
 fecha = datetime.now()
 precio_usd = obtener_precio_bitcoin()
 tipo_cambio = obtener_tipo_cambio(fecha)
 
-# Agregar el registro a la tabla 'bitcoin'
 if tipo_cambio is not None:
   agregar_registro_bitcoin(fecha, precio_usd)
 
-# Consulta para calcular el precio de compra de 10 bitcoins en PEN y EUR
 conexion = sqlite3.connect("base.db")
 cursor = conexion.cursor()
 cursor.execute("""
@@ -69,10 +63,8 @@ LIMIT 1;
 """)
 
 fila = cursor.fetchone()
-
 conexion.close()
 
-# Impresión del resultado
 if fila is not None:
   print(f"Fecha: {fila[0]}")
   print(f"Precio de compra de 10 bitcoins en PEN: {fila[1] * 10}")
